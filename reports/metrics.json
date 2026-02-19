@@ -1,0 +1,16 @@
+{
+  "model": "ridge",
+  "best_params": {
+    "regressor__alpha": 0.1,
+    "regressor__fit_intercept": false
+  },
+  "r2": 0.8668921827834128,
+  "rmse": 4545.857430069052,
+  "mae": 2721.2199898265153,
+  "n_train": 1070,
+  "n_test": 268,
+  "random_state": 42,
+  "test_size": 0.2,
+  "cv_folds": 5,
+  "run_id": "latest"
+}

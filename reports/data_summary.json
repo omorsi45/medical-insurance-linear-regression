@@ -1,0 +1,23 @@
+{
+  "n_rows": 1338,
+  "n_cols": 7,
+  "duplicate_rows": 1,
+  "missing_values": {
+    "age": 0,
+    "sex": 0,
+    "bmi": 0,
+    "children": 0,
+    "smoker": 0,
+    "region": 0,
+    "charges": 0
+  },
+  "columns": [
+    "age",
+    "sex",
+    "bmi",
+    "children",
+    "smoker",
+    "region",
+    "charges"
+  ]
+}
