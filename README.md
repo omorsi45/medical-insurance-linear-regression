@@ -2,6 +2,8 @@
 
 Predict medical insurance `charges` using a linear model with feature engineering, cross-validation, and stability checks.
 
+**Timeline:** May 2025 – Jul 2025
+
 ## Results
 
 **Test set (seed=42):**
