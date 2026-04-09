@@ -2,28 +2,31 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 import pandas as pd
-import sys
 
-def main():
-    seeds = [1, 7, 21, 42, 99]
+from config import SEED_SWEEP_SEEDS
+
+
+def main() -> None:
+    seeds = SEED_SWEEP_SEEDS
     data_path = "data/insurance.csv"
 
     rows = []
     for s in seeds:
         run_id = f"seed_{s}"
         subprocess.check_call(
-    [
-        sys.executable,
-        "src/train.py",
-        "--data_path", data_path,
-        "--model", "ridge",
-        "--random_state", str(s),
-        "--run_id", run_id,
-    ]
-)
+            [
+                sys.executable,
+                "src/train.py",
+                "--data_path", data_path,
+                "--model", "ridge",
+                "--random_state", str(s),
+                "--run_id", run_id,
+            ]
+        )
 
         metrics_path = Path("reports") / "runs" / run_id / "metrics.json"
         with metrics_path.open("r", encoding="utf-8") as f:

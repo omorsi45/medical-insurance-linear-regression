@@ -30,7 +30,7 @@ This repo trains a Linear/Ridge regression model on the common Kaggle insurance 
 - a saved model you can reuse for new predictions
 
 ## Dataset
-Download the dataset (“Medical Cost Personal Datasets”) and place the CSV here:
+Download the dataset ("Medical Cost Personal Datasets") and place the CSV here:
 - `data/insurance.csv`
 
 Expected columns:
@@ -38,8 +38,71 @@ Expected columns:
 
 Note: `data/` is in `.gitignore` so the dataset is not uploaded to GitHub.
 
+## Project structure
+
+```
+src/
+├── config.py        # Shared constants (DPI, BMI bins, sweep seeds)
+├── features.py      # Feature engineering (BMI category, smoker×BMI interaction)
+├── preprocess.py    # Data cleaning, validation, sklearn preprocessing pipeline
+├── train.py         # Main training script (GridSearchCV, metrics, plots, model export)
+├── predict.py       # Single-row inference from a saved model
+├── interpret.py     # Coefficient extraction and bar chart
+├── plots.py         # Diagnostic plots (predicted vs actual, residuals)
+├── seed_sweep.py    # Stability check across multiple random seeds
+└── utils.py         # RMSE, JSON/CSV save helpers, dataset summary
+```
+
 ## Setup (Windows / macOS / Linux)
 From the repo root:
 
 ```bash
 python -m venv .venv
+
+# macOS / Linux
+source .venv/bin/activate
+
+# Windows
+.venv\Scripts\activate
+
+pip install -r requirements.txt
+```
+
+## Training
+
+```bash
+python src/train.py
+```
+
+Optional arguments:
+
+| Flag | Default | Description |
+|---|---|---|
+| `--data_path` | `data/insurance.csv` | Path to the dataset |
+| `--model` | `ridge` | `linear` or `ridge` |
+| `--test_size` | `0.2` | Fraction held out for testing |
+| `--random_state` | `42` | Random seed |
+| `--cv_folds` | `5` | Cross-validation folds |
+| `--run_id` | `latest` | Tag for output subdirectory |
+
+Outputs go to `reports/`, `figures/`, and `models/`.
+
+## Prediction (single row)
+
+```bash
+python src/predict.py \
+  --age 35 --sex female --bmi 27.5 \
+  --children 2 --smoker no --region northeast
+```
+
+Valid values: `sex` = male/female, `smoker` = yes/no, `region` = northeast/northwest/southeast/southwest.
+
+## Stability sweep
+
+Runs training across 5 seeds and reports mean ± std of all metrics:
+
+```bash
+python src/seed_sweep.py
+```
+
+Results saved to `reports/seed_sweep_summary.csv` and `reports/seed_sweep_stats.json`.
