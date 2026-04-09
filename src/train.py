@@ -13,7 +13,7 @@ from sklearn.pipeline import Pipeline
 from features import add_bmi_category, add_smoker_bmi_interaction
 from interpret import extract_coefficients, save_top_coeff_plot
 from plots import save_predicted_vs_actual, save_residuals_hist, save_residuals_vs_predicted
-from preprocess import FeatureSpec, build_preprocessor, get_feature_names, validate_columns
+from preprocess import FeatureSpec, build_preprocessor, clean_data, get_feature_names, validate_columns
 from utils import dataset_summary, rmse, save_json
 
 
@@ -35,23 +35,6 @@ def load_data(path: str | Path) -> pd.DataFrame:
             f"File not found: {path}. Put your dataset at data/insurance.csv (or pass --data_path)."
         )
     return pd.read_csv(path)
-
-
-def clean_data(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.copy()
-
-    for col in ["sex", "smoker", "region"]:
-        if col in df.columns:
-            df[col] = df[col].astype(str).str.strip().str.lower()
-
-    df = df.dropna(subset=["charges"])
-
-    for col in ["age", "bmi", "children", "charges"]:
-        if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors="coerce")
-
-    df = df.dropna(subset=["age", "bmi", "children", "charges"])
-    return df
 
 
 def build_model_pipeline(model_type: str, random_state: int) -> tuple[Pipeline, dict]:

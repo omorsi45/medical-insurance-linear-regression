@@ -1,14 +1,13 @@
-# src/features.py (same as before; keep or overwrite)
 from __future__ import annotations
 
 import pandas as pd
 
+from config import BMI_BINS, BMI_LABELS
+
 
 def add_bmi_category(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
-    bins = [-float("inf"), 18.5, 25.0, 30.0, float("inf")]
-    labels = ["underweight", "normal", "overweight", "obese"]
-    df["bmi_category"] = pd.cut(df["bmi"], bins=bins, labels=labels, right=False)
+    df["bmi_category"] = pd.cut(df["bmi"], bins=BMI_BINS, labels=BMI_LABELS, right=False)
     return df
 
 
