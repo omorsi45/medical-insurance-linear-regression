@@ -29,6 +29,8 @@ This repo trains a Linear/Ridge regression model on the common Kaggle insurance 
 - prediction + residual plots
 - a saved model you can reuse for new predictions
 
+Minor update to documentation.
+
 ## Dataset
 Download the dataset ("Medical Cost Personal Datasets") and place the CSV here:
 - `data/insurance.csv`
